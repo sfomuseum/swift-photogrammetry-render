@@ -7,10 +7,10 @@ import PhotogrammetryRenderer
 @available(macOS 12.0, *)
 struct Photogrammetry: ParsableCommand {
     
-    @Argument(help:"The path to a source image file to extract image subjects from.")
+    @Argument(help:"The path to the folder containing images used to derive 3D model")
     var inputFolder: String
     
-    @Argument(help:"...")
+    @Argument(help:"The path (and filename) of the 3D model to create")
     var outputFile: String
     
     @Option(help: "Log events to system log files")
@@ -19,7 +19,7 @@ struct Photogrammetry: ParsableCommand {
     @Option(help: "Enable verbose logging")
     var verbose: Bool = false
     
-    @Option(help: "...")
+    @Option(help: "The level of detail to use when creating the 3D model. Valid options are: preview, reduced, medium, full, raw.")
     var detail: String = "medium"
     
     func run() throws {

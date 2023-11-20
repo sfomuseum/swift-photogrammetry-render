@@ -16,7 +16,7 @@ public enum RenderErrors: Error {
     case invalidSample
 }
 
-@available(macOS 12.0, *)
+@available(macOS 12.0, iOS 17.0, *)
 public class PhotogrammetryRenderer {
     
     var inputFolderUrl: URL

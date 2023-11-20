@@ -23,14 +23,18 @@ let r = PhotogrammetryRenderer(
 	logger: logger
 )
         
-r.Render(completion: { (result) in
-            
-	if case let .success(modelUrl) = result {
+r.Render(
+    onprogress: { (fractionComplete) in
+        // print fractionComplete here or adjust to taste 
+    },
+    oncomplete: { (result) in            
+        if case let .success(modelUrl) = result {
                 print(modelUrl)
-	} else if case let .failure(error) = result {
+        } else if case let .failure(error) = result {
                 logger.error("Failed to process model, \(error)")
-	}
-})
+        }
+    }
+)
 ```
 
 ## Tools

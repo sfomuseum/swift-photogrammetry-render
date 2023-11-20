@@ -3,6 +3,14 @@ import RealityKit
 import ArgumentParser
 import SFOMuseumLogger
 import PhotogrammetryRenderer
+import Progress
+
+actor Bar {
+    var progressBar = ProgressBar(count: 100)
+    func setValue(_ value: Int) {
+        progressBar.setValue(value)
+    }
+}
 
 @available(macOS 12.0, *)
 struct Photogrammetry: ParsableCommand {
@@ -64,16 +72,21 @@ struct Photogrammetry: ParsableCommand {
             logger: logger
         )
         
-        r.Render(completion: { (result) in
-            
-            if case let .success(modelUrl) = result {
-                print(modelUrl)
-                Foundation.exit(0)
-            } else if case let .failure(error) = result {
-                logger.error("Failed to process model, \(error)")
-                Foundation.exit(1)
-            }
-        })
+        let bar = Bar()
+        
+        r.Render(
+            onprogress: { (fractionComplete) in
+                await bar.setValue(Int(fractionComplete * 100))
+            },
+            oncomplete: { (result) in
+                if case let .success(modelUrl) = result {
+                    print(modelUrl)
+                    Foundation.exit(0)
+                } else if case let .failure(error) = result {
+                    logger.error("Failed to process model, \(error)")
+                    Foundation.exit(1)
+                }
+            })
         
         RunLoop.main.run()
     }

@@ -1,14 +1,6 @@
 import Logging
 import RealityKit
 import Foundation
-import Progress
-
-actor Bar {
-    var progressBar = ProgressBar(count: 100)
-    func setValue(_ value: Int) {
-        progressBar.setValue(value)
-    }
-}
 
 public enum RenderErrors: Error {
     case invalidDetail
@@ -32,9 +24,7 @@ public class PhotogrammetryRenderer {
         self.logger = logger
     }
     
-    public func Render(completion: @escaping (_ result: Result<URL, Error>) -> ()) {
-        
-        let bar = Bar()
+    public func Render(onprogress: @escaping (_ fractionComplete: Double) async -> (), oncomplete: @escaping (_ result: Result<URL, Error>) -> ()) {
         
         var config = PhotogrammetrySession.Configuration()
         config.featureSensitivity = .normal
@@ -80,7 +70,7 @@ public class PhotogrammetryRenderer {
                         logger.info("Request \(String(describing: request)) had a result: \(String(describing: result))")
                         
                     case .requestProgress(_, let fractionComplete):
-                        await bar.setValue(Int(fractionComplete * 100))
+                        await onprogress(fractionComplete)
                     case .inputComplete:
                         logger.info("Data ingestion is complete, beginning processing...")
                     case .invalidSample(let id, let reason):

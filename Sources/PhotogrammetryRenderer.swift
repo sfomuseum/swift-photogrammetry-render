@@ -39,13 +39,13 @@ public class PhotogrammetryRenderer {
                 configuration: config)
         } catch {
             self.logger.error("Failed to create session, \(error)")
-            completion(.failure(error))
+            oncomplete(.failure(error))
             return
         }
         
         guard let session = optionalSession else {
             logger.error("Failed to initialize photogrammetry session")
-            completion(.failure(RenderErrors.photogrammetrySessionInitialization))
+            oncomplete(.failure(RenderErrors.photogrammetrySessionInitialization))
             return
         }
         
@@ -60,11 +60,11 @@ public class PhotogrammetryRenderer {
                         self.logger.warning("Incomplete stitching")
                     case .processingComplete:
                         self.logger.info("Processing is complete")
-                        completion(.success(outputFileUrl))
+                        oncomplete(.success(outputFileUrl))
                         break
                     case .requestError(let request, let error):
                         logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
-                        completion(.failure(error))
+                        oncomplete(.failure(error))
                         break
                     case .requestComplete(let request, let result):
                         logger.info("Request \(String(describing: request)) had a result: \(String(describing: result))")
@@ -75,7 +75,7 @@ public class PhotogrammetryRenderer {
                         logger.info("Data ingestion is complete, beginning processing...")
                     case .invalidSample(let id, let reason):
                         logger.error("Invalid Sample, id=\(id) reason=\"\(reason)\"")
-                        completion(.failure(RenderErrors.invalidSample))
+                        oncomplete(.failure(RenderErrors.invalidSample))
                         break
                     case .skippedSample(let id):
                         logger.debug("Sample id=\(id) was skipped by processing")
@@ -89,7 +89,7 @@ public class PhotogrammetryRenderer {
                 }
             } catch {
                 logger.error("Failed to wait on task, \(error)")
-                completion(.failure(error))
+                oncomplete(.failure(error))
             }
         }
         
@@ -107,7 +107,7 @@ public class PhotogrammetryRenderer {
                 
             } catch {
                 logger.error("Failed to process session, \(error)")
-                completion(.failure(error))
+                oncomplete(.failure(error))
             }
             
         }

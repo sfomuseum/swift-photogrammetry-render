@@ -4,12 +4,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "render",
+    name: "PhotogrammetryRenderer",
+    products: [
+        // Products define the executables and libraries a package produces, making them visible to other packages.
+        .library(
+            name: "PhotogrammetryRenderer",
+            targets: ["PhotogrammetryRenderer"]),
+    ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.0"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
-        .package(url: "https://github.com/sfomuseum/swift-sfomuseum-logger.git", from: "1.0.0"),
-        .package(url: "https://github.com/jkandzi/Progress.swift.git", from: "0.4.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -18,19 +21,8 @@ let package = Package(
             name: "PhotogrammetryRenderer",
             dependencies: [
                 .product(name: "Logging", package: "swift-log"),
-                .product(name: "Progress", package: "Progress.swift")
             ],
             path: "Sources"
         ),
-        .executableTarget(
-            name: "render",
-            dependencies: [
-                "PhotogrammetryRenderer",
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "SFOMuseumLogger", package: "swift-sfomuseum-logger"),
-                .product(name: "Progress", package: "Progress.swift")
-	    ],
-            path: "Scripts"
-	),
     ]
 )

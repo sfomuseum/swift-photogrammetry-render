@@ -44,3 +44,4 @@ This requires MacOS 12.0, iOS 17.0 or higher.
 ## See also
 
 * https://developer.apple.com/documentation/realitykit/photogrammetrysession
+* https://github.com/sfomuseum/swift-photogrammetry-render-cli

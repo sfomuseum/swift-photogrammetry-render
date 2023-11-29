@@ -4,7 +4,7 @@ An opinionated Swift package for basic `PhotogrammetrySession` operations to der
 
 ## Background 
 
-For background, please see the [Experiments in Photogrammetry](https://millsfield.sfomuseum.org/blog/2023/11/29/3d/) blog post. 
+For background, please see the ["Experiments in Photogrammetry"](https://millsfield.sfomuseum.org/blog/2023/11/29/3d/) blog post. 
 
 ## Documentation
 
